@@ -1,5 +1,5 @@
 # Use the official ForgeRock OpenAM image as a base
-FROM forgerock/openam:7.1.0
+FROM openidentityplatform/openam:14.7.2
 
 # Set environment variables
 ENV CATALINA_OPTS="-Xmx2g"

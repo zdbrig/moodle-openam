@@ -1,5 +1,5 @@
 # Use the official Moodle image as a base
-FROM moodlehq/moodle-php-apache:3.11
+FROM moodlehq/moodle-php-apache
 
 # Copy the custom Moodle configuration file
 COPY config.php /var/www/html/
