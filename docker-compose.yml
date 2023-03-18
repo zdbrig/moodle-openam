@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+
+  moodle:
+    build: ./moodle
+    container_name: moodle
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    environment:
+      MOODLE_DB_HOST: db
+      MOODLE_DB_NAME: ${MYSQL_DATABASE}
+      MOODLE_DB_USER: ${MYSQL_USER}
+      MOODLE_DB_PASSWORD: ${MYSQL_PASSWORD}
+      MOODLE_URL: ${MOODLE_URL}
+    volumes:
+      - moodle_data:/var/www/html/moodledata
+
+  openam:
+    build: ./openam
+    container_name: openam
+    ports:
+      - "8081:8080"
+    environment:
+      OPENAM_ADMIN_PASSWORD: ${OPENAM_ADMIN_PASSWORD}
+      OPENAM_CONFIG_DIR: /opt/openam/config
+    volumes:
+      - openam_data:/usr/local/tomcat/openam
+
+volumes:
+  db_data:
+  moodle_data:
+  openam_data:
